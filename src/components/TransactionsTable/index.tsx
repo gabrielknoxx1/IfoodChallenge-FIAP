@@ -1,8 +1,11 @@
+import { useState } from "react"
 import Printer from "../../assets/printer.svg"
 import { useTransactions } from "../../hooks/useTransactions"
+import { ReportModal } from "../ReportModal"
 import { Container } from "./styles"
 
 export function TransactionsTable() {
+  const [reportModalIsOpen, setReportModalIsOpen] = useState(false)
   const { transactions, activeFilters } = useTransactions()
   const refinedTransactions = transactions.filter(
     (transaction) =>
@@ -17,7 +20,7 @@ export function TransactionsTable() {
           <th>Categoria</th>
           <th>
             Data
-            <button>
+            <button type="button" onClick={() => setReportModalIsOpen(true)}>
               <img src={Printer} alt="icon" />
             </button>
           </th>
@@ -43,6 +46,10 @@ export function TransactionsTable() {
           ))}
         </tbody>
       </table>
+      <ReportModal
+        isOpen={reportModalIsOpen}
+        onRequestClose={() => setReportModalIsOpen(false)}
+      />
     </Container>
   )
 }
