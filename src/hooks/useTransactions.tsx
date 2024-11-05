@@ -1,10 +1,4 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react"
+import { createContext, ReactNode, useContext, useState } from "react"
 import { api } from "../services/api"
 
 interface Transaction {
@@ -36,11 +30,11 @@ export function TransactionsProvider({ children }: TransactionsProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [activeFilters, setActiveFilters] = useState<Filter>("all")
 
-  useEffect(() => {
-    api
-      .get("/transactions")
-      .then((response) => setTransactions(response.data.transactions))
-  }, [])
+  // useEffect(() => {
+  //   api
+  //     .get("/transactions")
+  //     .then((response) => setTransactions(response.data.transactions))
+  // }, [])
 
   async function createTransaction(transactionInput: TransactionInput) {
     const response = await api.post("/transactions", {
