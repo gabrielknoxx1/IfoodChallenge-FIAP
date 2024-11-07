@@ -1,0 +1,42 @@
+.summaryContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: -10rem;
+}
+
+.summaryContainer div {
+  background-color: #f7f7f7;
+  padding: 1.5rem 2rem;
+  border-radius: 0.25rem;
+  color: #333;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.summaryContainer div header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.summaryContainer div header p.income {
+  color: var(--green);
+}
+
+.summaryContainer div header p.outcome {
+  color: #333;
+}
+
+.summaryContainer div strong {
+  display: block;
+  margin-top: 1rem;
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 3rem;
+}
+
+.summaryContainer div.highlite-background {
+  background-color: #34c759;
+  color: #fff;
+}

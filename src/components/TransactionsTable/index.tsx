@@ -1,55 +1,41 @@
-import { useState } from "react"
-import Printer from "../../assets/printer.svg"
 import { useTransactions } from "../../hooks/useTransactions"
-import { ReportModal } from "../ReportModal"
-import { Container } from "./styles"
+import "./styles.css"
 
 export function TransactionsTable() {
-  const [reportModalIsOpen, setReportModalIsOpen] = useState(false)
   const { transactions, activeFilters } = useTransactions()
-  const refinedTransactions = transactions.filter(
-    (transaction) =>
-      transaction.type === activeFilters || activeFilters === "all"
+  const refinedTransactions = transactions?.filter(
+    (transaction) => transaction.tipo && activeFilters === "all"
   )
   return (
-    <Container>
+    <div className="tableContainer">
       <table>
         <thead>
           <th>Título</th>
           <th>Valor</th>
           <th>Categoria</th>
-          <th>
-            Data
-            <button type="button" onClick={() => setReportModalIsOpen(true)}>
-              <img src={Printer} alt="icon" />
-            </button>
-          </th>
+          <th>Data</th>
         </thead>
 
         <tbody>
-          {refinedTransactions.map((transaction) => (
+          {refinedTransactions?.map((transaction) => (
             <tr key={transaction.id}>
-              <td>{transaction.title}</td>
-              <td className={transaction.type}>
+              <td>{transaction.descricao}</td>
+              <td className={transaction.tipo === 1 ? "deposit" : "withraw"}>
                 {new Intl.NumberFormat("pt-BR", {
                   style: "currency",
                   currency: "BRL",
-                }).format(transaction.amount)}
+                }).format(transaction.valor)}
               </td>
-              <td>{transaction.category}</td>
+              <td>{transaction.tipo === 1 ? "Entrada" : "Saída"}</td>
               <td>
                 {new Intl.DateTimeFormat("pt-BR").format(
-                  new Date(transaction.createdAt)
+                  new Date(transaction.data)
                 )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <ReportModal
-        isOpen={reportModalIsOpen}
-        onRequestClose={() => setReportModalIsOpen(false)}
-      />
-    </Container>
+    </div>
   )
 }

@@ -1,20 +1,24 @@
-import { createContext, ReactNode, useContext, useState } from "react"
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react"
 import { api } from "../services/api"
 
 interface Transaction {
-  id: number
-  title: string
-  amount: number
-  type: string
-  category: string
-  createdAt: string
+  id: string
+  descricao: string
+  data: number
+  idUsuario: string
+  tipo: number
+  valor: number
 }
 
-type TransactionInput = Omit<Transaction, "id" | "createdAt">
 type Filter = "all" | "deposit" | "withdraw"
 interface TransactionsContextData {
   transactions: Transaction[]
-  createTransaction: (transaction: TransactionInput) => Promise<void>
   activeFilters: Filter
   setActiveFilters: (filter: Filter) => void
 }
@@ -29,28 +33,22 @@ const TransactionsContext = createContext<TransactionsContextData>(
 export function TransactionsProvider({ children }: TransactionsProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [activeFilters, setActiveFilters] = useState<Filter>("all")
+  const {
+    user: {
+      value: { id },
+    },
+  } = JSON.parse(localStorage.getItem("@Fintech:token") as string)
 
-  // useEffect(() => {
-  //   api
-  //     .get("/transactions")
-  //     .then((response) => setTransactions(response.data.transactions))
-  // }, [])
-
-  async function createTransaction(transactionInput: TransactionInput) {
-    const response = await api.post("/transactions", {
-      ...transactionInput,
-      createdAt: new Date(),
-    })
-    const { transaction } = response.data
-
-    setTransactions([...transactions, transaction])
-  }
+  useEffect(() => {
+    api
+      .get(`transactions/${id}`)
+      .then((response) => setTransactions(response.data))
+  }, [])
 
   return (
     <TransactionsContext.Provider
       value={{
         transactions,
-        createTransaction,
         activeFilters,
         setActiveFilters,
       }}

@@ -2,19 +2,19 @@ import incomesImg from "../../assets/income.svg"
 import outcomesImg from "../../assets/outcome.svg"
 import totalImg from "../../assets/total.svg"
 import { useTransactions } from "../../hooks/useTransactions"
-import { Container } from "./styles"
+import "./styles.css"
 
 export function Summary() {
   const { transactions, setActiveFilters } = useTransactions()
 
-  const summary = transactions.reduce(
+  const summary = transactions?.reduce(
     (acc, transaction) => {
-      if (transaction.type === "deposit") {
-        acc.deposits += transaction.amount
-        acc.total += transaction.amount
+      if (transaction.tipo === 1) {
+        acc.deposits += transaction.valor
+        acc.total += transaction.valor
       } else {
-        acc.withdraws += transaction.amount
-        acc.total -= transaction.amount
+        acc.withdraws += transaction.valor
+        acc.total -= transaction.valor
       }
 
       return acc
@@ -27,7 +27,7 @@ export function Summary() {
   )
 
   return (
-    <Container>
+    <div className="summaryContainer">
       <div>
         <header onClick={() => setActiveFilters("deposit")}>
           <p className="income">Receitas</p>
@@ -37,7 +37,7 @@ export function Summary() {
           {new Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
-          }).format(summary.deposits)}
+          }).format(summary?.deposits)}
         </strong>
       </div>
       <div>
@@ -51,7 +51,7 @@ export function Summary() {
           {new Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
-          }).format(summary.withdraws)}
+          }).format(summary?.withdraws)}
         </strong>
       </div>
       <div className="highlite-background">
@@ -63,9 +63,9 @@ export function Summary() {
           {new Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
-          }).format(summary.total)}
+          }).format(summary?.total)}
         </strong>
       </div>
-    </Container>
+    </div>
   )
 }

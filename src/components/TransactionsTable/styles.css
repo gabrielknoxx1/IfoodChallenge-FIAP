@@ -1,0 +1,50 @@
+.tableContainer {
+  margin-top: 4rem;
+  color: #fff;
+
+  border: 1px solid #fff;
+}
+
+table {
+  width: 100%;
+  border-spacing: 0 0.5rem;
+  th {
+    color: #fff;
+
+    font-weight: 400;
+    padding: 1rem 2rem;
+    text-align: left;
+    line-height: 1.5rem;
+
+    button {
+      margin-left: 16px;
+      border: none;
+      background: transparent;
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+
+  td {
+    padding: 1rem 2rem;
+    border: 0;
+    background: #cbd5e1;
+    color: #020617;
+    border-radius: 0.25rem;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+
+    &:first-child {
+      color: #020617;
+    }
+
+    &.deposit {
+      color: #15803d;
+    }
+    &.withraw {
+      color: #dc2626;
+    }
+  }
+}

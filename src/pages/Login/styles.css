@@ -5,8 +5,11 @@
   justify-content: center;
   align-items: center;
   transition: all 0.3s ease-in-out;
-  a {
+  button {
+    background-color: transparent;
+    border: none;
     margin-top: 64px;
+    padding: 4px 8px;
     color: #f1900080;
     text-decoration: none;
     &:hover {

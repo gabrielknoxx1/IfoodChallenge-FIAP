@@ -1,27 +1,26 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { api } from "../../services/api"
 import "./styles.css"
 export const Login = () => {
+  const navigate = useNavigate()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    const response = api
-      .post("auth/login", {
-        usuario: "teste@teste.com",
-        senha: "Teste@123",
-      })
-      .then((response) => {
-        console.log("🚀 ~ handleSubmit ~ response.data:", response.data)
-        localStorage.setItem("token", response.data.token)
-        window.location.href = "/"
-      })
-      .catch((error) => {
-        console.log("🚀 ~ handleSubmit ~ error.response.data:", error)
+    try {
+      const response = await api.post("auth/login", {
+        usuario: email,
+        senha: password,
       })
 
-    console.log("🚀 ~ handleSubmit ~ response:")
+      const token = JSON.stringify(response.data)
+      localStorage.setItem("@Fintech:token", token)
+      navigate("dashboard")
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -52,9 +51,9 @@ export const Login = () => {
           </button>
         </form>
       </div>
-      <a href="pages/register.html" id="register">
+      <button id="register" onClick={() => navigate("register")}>
         Cadastre-se
-      </a>
+      </button>
     </div>
   )
 }
